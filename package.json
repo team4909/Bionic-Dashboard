@@ -8,12 +8,14 @@
   },
   "devDependencies": {
     "electron": "^20.0.2",
+    "eslint": "^8.21.0",
+    "eslint-plugin-react": "^7.30.1",
     "nodemon": "^2.0.19"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "electron .",
-	"start:nodemon": "nodemon --watch . --exec npm start"
+    "start": "electron .",
+    "start:nodemon": "nodemon --watch . --exec npm start"
   },
   "repository": {
     "type": "git",
