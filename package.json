@@ -4,6 +4,7 @@
   "description": "A custom frc dashboard for 4909 Bionics",
   "main": "src/app.js",
   "dependencies": {
+    "react": "^18.2.0",
     "wolfbyte-networktables": "^1.7.3"
   },
   "devDependencies": {
@@ -15,7 +16,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "start:nodemon": "nodemon --watch . --exec npm start"
+    "start:nodemon": "nodemon --watch . -e js,json --exec npm start"
   },
   "repository": {
     "type": "git",
