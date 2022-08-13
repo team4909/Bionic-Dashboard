@@ -1,0 +1,28 @@
+{
+  "name": "bionic-dashboard",
+  "version": "1.0.0",
+  "description": "A custom frc dashboard for 4909 Bionics",
+  "main": "src/app.js",
+  "dependencies": {
+    "wolfbyte-networktables": "^1.7.3"
+  },
+  "devDependencies": {
+    "electron": "^20.0.2",
+    "nodemon": "^2.0.19"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "electron .",
+	"start:nodemon": "nodemon --watch . --exec npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FRCteam4909/Bionic-Dashboard.git"
+  },
+  "author": "Mihir Patankar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FRCteam4909/Bionic-Dashboard/issues"
+  },
+  "homepage": "https://github.com/FRCteam4909/Bionic-Dashboard#readme"
+}
