@@ -1,24 +1,40 @@
-'use strict';
-const http = require('http');
-const ntClient = require('wolfbyte-networktables');
+"use strict";
+const {app, BrowserWindow, globalShortcut} = require("electron");
 
-const hostname = '127.0.0.1';
-const roborio_hostname = "localhost"; // roborio-4909.local or something 
+const ntClient = require("wolfbyte-networktables");
+
+const hostname = "127.0.0.1";
 const port = 3000;
+const roborio_hostname = "localhost"; // roborio-4909.local or something 
 
 const client = new ntClient.Client();
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'text/plain')
-  res.end('Hello World\n')
-})
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`)
-})
+const createWindow = () => {
+	const mainWindow = new BrowserWindow({
+		width: 1280,
+		height: 720,
+		closable: true
+		
+	});
+	mainWindow.loadFile("src/index.html");
+	globalShortcut.register("F5", () => { mainWindow.reload(); });
+	
+};
 
 client.start(
-  (isConnected, error) => {console.log({isConnected, error})},
-  roborio_hostname
+	(isConnected, error) => { console.log({isConnected, error}); },
+	roborio_hostname
 );
+
+app.whenReady().then(() => {
+	createWindow();
+
+	app.on("activate", () => {
+		if (BrowserWindow.getAllWindows().length === 0) createWindow();
+	});
+
+});
+
+app.on("window-all-closed", () => {
+	if (process.platform !== "darwin") app.quit();
+});
