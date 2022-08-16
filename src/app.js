@@ -23,8 +23,8 @@ const setUpNT = () => {
 	ipcMain.on("ready", () => {
 		console.log("NetworkTables Initialized");
 		// The returned type parameter is used by the api as the channel name
-		client.addListener((key, value, valueType, type, id, flags) => {
-			mainWindow.webContents.send(type, { key, value, valueType, id, flags });
+		client.addListener((key, val, valType, msgType, id, flags) => {
+			mainWindow.webContents.send(msgType, { key, val, valType, id, flags });
 		}, true);
 	});
 
