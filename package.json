@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "dependencies": {
     "react": "^18.2.0",
-    "wolfbyte-networktables": "^1.7.3"
+    "wolfbyte-networktables": "^1.7.3",
+    "wpilib-nt-client": "^1.7.2"
   },
   "devDependencies": {
     "electron": "^20.0.2",
