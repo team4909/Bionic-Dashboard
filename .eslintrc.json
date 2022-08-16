@@ -37,6 +37,13 @@
 		"no-unused-vars": [
 			"warn",
 			{ "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-		]
+		],
+		"no-warning-comments": [
+			"warn",
+			{
+			  "terms": ["todo", "fixme"],
+			  "location": "start"
+			}
+		  ]
     }
 }

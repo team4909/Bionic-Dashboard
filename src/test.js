@@ -1,3 +1,2 @@
-
-NetworkTables.putValue('/SmartDashboard/example_variable', true);
-console.log("hi");
+// NetworkTables.addKeyListener("Test Value 2", (k,v) => {console.log({k:k,v:v});}, true);
+// NetworkTables.addKeyListener("/SmartDashboard/example_variable", (k,v) => {console.log({k:k,v:v});}, true);
