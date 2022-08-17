@@ -1,6 +1,6 @@
 "use strict";
 const {app, BrowserWindow, globalShortcut, ipcMain} = require("electron");
-
+const path = require("path");
 const ntClient = require("wpilib-nt-client");
 
 const roborio_hostname = "localhost"; // roborio-4909.local or something 
@@ -14,8 +14,10 @@ const setUpNT = () => {
 			console.log({isConnected, error, is2_0}); 
 			if (isConnected)
 				mainWindow.webContents.send("connected", true);
-			else
+			else {
 				client.setReconnectDelay(5000);
+			}
+
 		},
 		roborio_hostname
 	);
@@ -38,31 +40,31 @@ const setUpNT = () => {
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({
-		title: "Loading...",
+		title: "loading very slowly...",
 		width: 1280,
 		height: 720,
 		closable: true,
 		backgroundColor: "#2e2c29",
 		autoHideMenuBar: true,
 		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
+			preload: path.join(__dirname, "preload.js"),
 		}
 	});
 
-	mainWindow.loadFile("src/index.html");
+	mainWindow.loadFile(path.join(__dirname, "index.html"));
 	globalShortcut.register("F5", () => { mainWindow.reload(); });
 	
 };
 
+app.enableSandbox();
 app.whenReady().then(() => {
 	setUpNT();
 	createWindow();
-
 });
 
 
 
 app.on("window-all-closed", () => {
+	app.quit();
 	// client.removeListener(() => {});
 });
