@@ -17,6 +17,7 @@ var NetworkTables =
                 keyListeners[mesg.key].map(e => e(mesg.key, mesg.val, true));
                 keys[mesg.key].new = false;
             }
+			console.log({ev: ev, mesg: mesg});
         });
         window.api.onDelete((ev, mesg) => {
             delete keys[mesg.key];
@@ -127,6 +128,7 @@ var NetworkTables =
                     let temp = keys[key];
                     f(key, temp.val, temp.new);
                 }
+				console.log(keyListeners);
             },
             /**
              * Use this to test whether a value is present in the table or not
