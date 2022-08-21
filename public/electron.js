@@ -1,4 +1,3 @@
-
 const {app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -8,12 +7,15 @@ const roborio_hostname = "localhost"; // roborio-4909.local or something
 const client = new ntClient.Client();
 
 let mainWindow;
+let isTest = false; // process.env.DASH_ENV === "TEST";
 let ntInitialized = false;
 
 // TODO make this handle robot disconnects and reconnects
 // the ntInitialized and listener variable manage state between hot reloads.
 const setUpNT = () => {
-	
+
+	console.log(ntInitialized);
+
 	let listener;
 	function createListener() {
 		// The returned type parameter is used by the api as the channel name
@@ -24,6 +26,7 @@ const setUpNT = () => {
 
 	ipcMain.on("ready", () => {
 		if (!ntInitialized) {
+			console.log("hello");
 			client.start(
 				(isConnected, error, is2_0) => {
 					console.log({isConnected, error, is2_0}); 
@@ -61,7 +64,9 @@ const createWindow = () => {
 		backgroundColor: "#2e2c29",
 		autoHideMenuBar: true,
 		webPreferences: {
-			preload: path.join(__dirname, "../src/preload.js"),
+			preload: path.join(__dirname, "./preload.js"),
+			nodeIntegration: isTest ? true : false,
+			contextIsolation: isTest ? false : true,
 		}
 	});
 
@@ -78,7 +83,7 @@ const createWindow = () => {
 app.whenReady().then(async () => {
 	createWindow();
 
-	mainWindow.webContents.on("did-finish-load", () => {
+	mainWindow.webContents.on("dom-ready", () => {
 		setUpNT();
 	});
 });

@@ -4,6 +4,7 @@ var NetworkTables =
     (() => {
         let keys = {}, connectionListeners = [], connected = false, globalListeners = [], keyListeners = {}, robotAddress = '127.0.0.1';
         window.api.sendReady();
+		console.log("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
         window.api.onConnected((ev, con) => {
             connected = con;
             connectionListeners.map(e => e(con));
@@ -17,7 +18,6 @@ var NetworkTables =
                 keyListeners[mesg.key].map(e => e(mesg.key, mesg.val, true));
                 keys[mesg.key].new = false;
             }
-			console.log({ev: ev, mesg: mesg});
         });
         window.api.onDelete((ev, mesg) => {
             delete keys[mesg.key];
