@@ -1,49 +1,32 @@
 {
     "env": {
+		"browser": true,
+        "es2021": true,
+		"commonjs": true,
         "node": true,
-        "commonjs": true,
-        "es2021": true
+		"jest": true
     },
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended"
     ],
+    "overrides": [
+    ],
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "plugins": [
         "react"
     ],
     "rules": {
-        "indent": [
-            "warn",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "quotes": [
-            "error",
-            "double"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "indent": ["warn", "tab"],
+        "linebreak-style": ["error", "windows"],
+        "quotes": ["warn", "double"],
+        "semi": ["error", "always"],
 		"no-unused-vars": [
 			"warn",
 			{ "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-		],
-		"no-warning-comments": [
-			"warn",
-			{
-			  "terms": ["todo", "fixme"],
-			  "location": "start"
-			}
-		  ]
+		]
     }
 }
