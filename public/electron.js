@@ -7,14 +7,11 @@ const roborio_hostname = "localhost"; // roborio-4909.local or something
 const client = new ntClient.Client();
 
 let mainWindow;
-let isTest = false; // process.env.DASH_ENV === "TEST";
 let ntInitialized = false;
 
 // TODO make this handle robot disconnects and reconnects
 // the ntInitialized and listener variable manage state between hot reloads.
 const setUpNT = () => {
-
-	console.log(ntInitialized);
 
 	let listener;
 	function createListener() {
@@ -57,7 +54,7 @@ const setUpNT = () => {
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({
-		title: "loading very quickly...",
+		title: "loading...",
 		width: 1280,
 		height: 720,
 		closable: true,
@@ -65,16 +62,14 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, "./preload.js"),
-			nodeIntegration: isTest ? true : false,
-			contextIsolation: isTest ? false : true,
 		}
 	});
 
 	mainWindow.loadURL(
 		isDev 
 			? "http://localhost:3000"
-			: `file://${path.join(__dirname, "../build.index.html")}`
-	);
+			: `file://${path.join(__dirname, "../build.index.html")}`);
+
 
 	globalShortcut.register("F5", () => { mainWindow.reload(); });
 	
@@ -82,10 +77,7 @@ const createWindow = () => {
 
 app.whenReady().then(async () => {
 	createWindow();
-
-	mainWindow.webContents.on("dom-ready", () => {
-		setUpNT();
-	});
+	setUpNT();
 });
 
 app.on("window-all-closed", () => {

@@ -19,7 +19,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=node",
+    "test": "react-scripts test --env=jsdom",
+	"test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "electron:start": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/electron.js",
     "electron:test": "npx playwright test"
@@ -71,5 +72,9 @@
       "last 1 safari version"
     ]
   },
-  "jest": {}
+  "jest": {
+	  "moduleNameMapper": {
+		  "electron": "<rootDir>"
+	  }
+  }
 }

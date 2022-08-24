@@ -1,15 +1,14 @@
 // Adapted from: https://github.com/FRCDashboard/FRCDashboard Retrieved 8/16/2022
+let test = window.TEST === true;
 
 var NetworkTables =
     (() => {
         let keys = {}, connectionListeners = [], connected = false, globalListeners = [], keyListeners = {}, robotAddress = '127.0.0.1';
-        window.api.sendReady();
-		console.log("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-        window.api.onConnected((ev, con) => {
+        const connectedCallback = (_ev, con) => {
             connected = con;
             connectionListeners.map(e => e(con));
-        });
-        window.api.onAdd((ev, mesg) => {
+        };
+        const addCallback = (_ev, mesg) => {
             keys[mesg.key] = { val: mesg.val, valType: mesg.valType, id: mesg.id, flags: mesg.flags, new: true };
             globalListeners.map(e => e(mesg.key, mesg.val, true));
             if (globalListeners.length > 0)
@@ -18,11 +17,11 @@ var NetworkTables =
                 keyListeners[mesg.key].map(e => e(mesg.key, mesg.val, true));
                 keys[mesg.key].new = false;
             }
-        });
-        window.api.onDelete((ev, mesg) => {
+        };
+        const deleteCallback = (_ev, mesg) => {
             delete keys[mesg.key];
-        });
-        window.api.onUpdate((ev, mesg) => {
+        };
+        const updateCallback = (_ev, mesg) => {
             let temp = keys[mesg.key];
             temp.flags = mesg.flags;
             temp.val = mesg.val;
@@ -33,10 +32,10 @@ var NetworkTables =
                 keyListeners[mesg.key].map(e => e(mesg.key, temp.val, temp.new));
                 temp.new = false;
             }
-        });
-        window.api.onFlagChange((ev, mesg) => {
+        };
+        const flagChangeCallback = (_ev, mesg) => {
             keys[mesg.key].flags = mesg.flags;
-        });
+        };
         var d3_map = function () {
             this._ = Object.create(null);
             this.forEach = function (f) {
@@ -66,6 +65,18 @@ var NetworkTables =
         function d3_map_unescape(key) {
             return (key += '')[0] === d3_map_zero ? decodeURIComponent(key.slice(1)) : decodeURIComponent(key);
         }
+		if (!test) {
+			window.api.sendReady();
+			window.api.onConnected(connectedCallback);
+			window.api.onAdd(addCallback);
+			window.api.onDelete(deleteCallback);
+			window.api.onUpdate(updateCallback);
+			window.api.onFlagChange(flagChangeCallback);
+		} else {
+			connectedCallback(null, true);
+			window.document.addEventListener("nt-add", e => addCallback(null, e.detail));
+			window.document.addEventListener("nt-update", e => updateCallback(null, e.detail));
+		}
         return {
             /**
              * @callback robotConnectionCallback
@@ -128,7 +139,6 @@ var NetworkTables =
                     let temp = keys[key];
                     f(key, temp.val, temp.new);
                 }
-				console.log(keyListeners);
             },
             /**
              * Use this to test whether a value is present in the table or not
@@ -185,10 +195,12 @@ var NetworkTables =
 
                 if (typeof keys[key] != 'undefined') {
                     keys[key].val = value;
-                    window.api.sendUpdate({ key, val: value, id: keys[key].id, flags: keys[key].flags });
+					if (test) window.document.dispatchEvent(new CustomEvent("client-update", { detail: { key, val: value, id: keys[key].id, flags: keys[key].flags } }));
+                    else window.api.sendUpdate({ key, val: value, id: keys[key].id, flags: keys[key].flags }) 
                 }
                 else {
-                    window.api.sendAdd({ key, val: value, flags: 0 });
+					if (test) window.document.dispatchEvent(new CustomEvent("client-add", { detail: { key, val: value, flags: 0 } }));
+                    else window.api.sendAdd({ key, val: value, flags: 0 })
                 }
                 return connected;
             },
