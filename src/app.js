@@ -3,8 +3,7 @@ import React from "react";
 function App() {
 	return (
 		<div className="App">
-			<p>Appppp Test</p>
-			{}
+			<p style={{ color: "blue" }}>React App</p>
 			
 		</div>
 	);

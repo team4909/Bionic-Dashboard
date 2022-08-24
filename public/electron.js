@@ -23,7 +23,6 @@ const setUpNT = () => {
 
 	ipcMain.on("ready", () => {
 		if (!ntInitialized) {
-			console.log("hello");
 			client.start(
 				(isConnected, error, is2_0) => {
 					console.log({isConnected, error, is2_0}); 
