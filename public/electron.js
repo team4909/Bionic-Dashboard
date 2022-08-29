@@ -1,4 +1,4 @@
-const {app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
+const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 const ntClient = require("wpilib-nt-client");
@@ -28,14 +28,14 @@ const setUpNT = () => {
 					console.log({isConnected, error, is2_0}); 
 					if (isConnected) {
 						mainWindow.webContents.send("connected", true);
+						createListener();
 						ntInitialized = true;
+						console.log("networktables.js Initialized");
 					}
 					else client.setReconnectDelay(5000);
 				},
 				roborio_hostname
 			);
-			createListener();
-			console.log("NetworkTables Initialized");
 		} else {
 			client.removeListener(listener);
 			createListener();
@@ -57,7 +57,7 @@ const createWindow = () => {
 		width: 1280,
 		height: 720,
 		closable: true,
-		backgroundColor: "#2e2c29",
+		backgroundColor: "#d5d4d4",
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, "./preload.js"),

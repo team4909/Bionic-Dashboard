@@ -69,7 +69,7 @@ test("jsdom test", () => {
 });
 
 
-test("client start", async () => {
+test("client start", () => {
 	expect(connectionInfo).toMatchObject({
 		isConnected: true,
 		error: null,
