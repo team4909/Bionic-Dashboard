@@ -11,5 +11,7 @@ export const theme = createTheme({
 		info: { main: "#2b75e3"},	
 		text: { primary: "#e8e8e8"},
 	},
-
+	typography: {
+		fontFamily: "Roboto Mono"
+	}
 });

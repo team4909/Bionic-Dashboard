@@ -15,12 +15,12 @@ export default class BatteryDisplay extends Component {
 			}, true);
 	}
 
-	getBatteryIcon = () => {
-		if (this.state.robotVoltage === null) return <BatteryUnknown color="info" fontSize="large" />;
-		else if (this.state.robotVoltage < 8) return <Battery1Bar color="error" fontSize="large" />;
-		else if (this.state.robotVoltage >= 8 && this.state.robotVoltage < 12) return <Battery3Bar color="warning" fontSize="large" />;
-		else if (this.state.robotVoltage >= 12 && this.state.robotVoltage < 13) return <Battery6Bar color="success" fontSize="large" />;
-		else if (this.state.robotVoltage >= 13) return <BatteryFull color="success" fontSize="large"/>;
+	getBatteryIcon = (voltage) => {
+		if (voltage === null) return <BatteryUnknown color="info" fontSize="large" />;
+		else if (voltage < 8) return <Battery1Bar color="error" fontSize="large" />;
+		else if (voltage >= 8 && voltage < 12) return <Battery3Bar color="warning" fontSize="large" />;
+		else if (voltage >= 12 && voltage < 13) return <Battery6Bar color="success" fontSize="large" />;
+		else if (voltage >= 13) return <BatteryFull color="success" fontSize="large"/>;
 		else return <BatteryAlert color="info" fontSize="large" />;
 	};
 
@@ -42,7 +42,7 @@ export default class BatteryDisplay extends Component {
 					borderColor: "text.primary", backgroundColor: "text.primary",
 					"& 	.MuiLinearProgress-bar1Determinate": { backgroundColor: "info.main" },
 				}} value={this.scaleVoltage(this.state.robotVoltage)} variant="determinate"/>
-				{this.getBatteryIcon()}
+				{this.getBatteryIcon(this.state.robotVoltage)}
 			</Stack>
 		);
 	}
